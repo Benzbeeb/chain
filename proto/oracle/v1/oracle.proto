@@ -211,3 +211,12 @@ message IBCSource {
   // SourcePort
   string source_port = 2;
 }
+
+// Result
+message Result {
+  option (gogoproto.equal) = true;
+  OracleRequestPacketData request_packet_data = 1
+      [ (gogoproto.nullable) = false ];
+  OracleResponsePacketData response_packet_data = 2
+      [ (gogoproto.nullable) = false ];
+}
