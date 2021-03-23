@@ -11,10 +11,17 @@ import "cosmos/base/v1beta1/coin.proto";
 // DataSource is the data structure for storing data sources in the storage.
 message DataSource {
   option (gogoproto.equal) = true;
+  // owner represents an address of the account who own the data source
   string owner = 1;
+  // name is data source name used for display
   string name = 2;
+  // description is data source description used for display
   string description = 3;
+  // filename represents string of file name used as reference for locating
+  // data source file stored in validator's node
   string filename = 4;
+  // fee is the data source fee per ask_count that data provider will receive
+	// from requester.
   repeated cosmos.base.v1beta1.Coin fee = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
@@ -24,11 +31,20 @@ message DataSource {
 // OracleScript is the data structure for storing oracle scripts in the storage.
 message OracleScript {
   option (gogoproto.equal) = true;
+  // owner represents an address of the account who own the oracle script
   string owner = 1;
+  // name is oracle script name used for display
   string name = 2;
+  // description is oracle script description used for display
   string description = 3;
+  // filename represents string of file name used as reference for locating
+  // compiled oracle script WASM file stored in validator's node
   string filename = 4;
+  // schema is the schema of the oracle script input/output
+  // which is formatted in OBI format e.g. "{symbol:string,multiplier:u64}/{px:u64}"
   string schema = 5;
+  // source_code_url is the URL of oracle script's source code.
+  // It is recommendded to store source code on IPFS and get its URL to preserve decentralization.
   string source_code_url = 6 [ (gogoproto.customname) = "SourceCodeURL" ];
 }
 
