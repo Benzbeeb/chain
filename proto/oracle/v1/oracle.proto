@@ -51,42 +51,61 @@ message OracleScript {
 // RawRequest is the data structure for storing raw requests in the storage.
 message RawRequest {
   option (gogoproto.equal) = true;
+  // external_id is an ID of the raw request
   int64 external_id = 1 [
     (gogoproto.customname) = "ExternalID",
     (gogoproto.casttype) = "ExternalID"
   ];
+  // data_source_id is an ID of data source script that relates to the raw request
   int64 data_source_id = 2 [
     (gogoproto.customname) = "DataSourceID",
     (gogoproto.casttype) = "DataSourceID"
   ];
+  // calldata is the data used as argument params for executing data source script
   bytes calldata = 3;
 }
 
 // RawRequest is the data structure for storing raw reporter in the storage.
 message RawReport {
   option (gogoproto.equal) = true;
+  // external_id is an ID of the raw request
   int64 external_id = 1 [
     (gogoproto.customname) = "ExternalID",
     (gogoproto.casttype) = "ExternalID"
   ];
+  // exit_code represents status code provided by validators to specify error, if any.
+  // Exit code is usually filled by the exit code returned from execution of specified data source script.
+  // With code 0 means there is no error.
   uint32 exit_code = 2;
+  // data represents raw result provided by validators.
+  // It is usually filled by the result from execution of specified data source script.
   bytes data = 3;
 }
 
 // Request is the data structure for storing requests in the storage.
 message Request {
   option (gogoproto.equal) = true;
+  // oracle_script_id is ID of an oracle script
   int64 oracle_script_id = 1 [
     (gogoproto.customname) = "OracleScriptID",
     (gogoproto.casttype) = "OracleScriptID"
   ];
+  // calldata is the data used as argument params for the oracle script
   bytes calldata = 2;
+  // requested_validators is a list of validator addresses that are assigned to fulfill the request
   repeated string requested_validators = 3;
+  // min_count is minimum number of validators required to fulfill the request
   uint64 min_count = 4;
+  // request_height is block height that the request has been created
   int64 request_height = 5;
+  // request_time is timestamp of the chain's block which contains the request
   uint64 request_time = 6;
+  // client_id is arbitrary id provided by requester.
+  // It is used by client-side for referencing the request
   string client_id = 7 [ (gogoproto.customname) = "ClientID" ];
+  // raw_requests is a list of raw requests specified by execution of oracle script
   repeated RawRequest raw_requests = 8 [ (gogoproto.nullable) = false ];
+  // ibc_source is an IBC connection info of the other chain
   IBCSource ibc_source = 9 [ (gogoproto.customname) = "IBCSource" ];
 }
 
